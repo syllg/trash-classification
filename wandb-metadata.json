@@ -1,6 +1,6 @@
 {
   "os": "Linux-5.15.154+-x86_64-with-glibc2.35",
-  "python": "3.10.14",
+  "python": "3.7",
   "startedAt": "2024-11-13T09:14:01.549636Z",
   "program": "kaggle.ipynb",
   "email": "*********@gmail.com",
