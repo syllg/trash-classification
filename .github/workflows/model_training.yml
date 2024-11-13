@@ -1,0 +1,38 @@
+name: Model Training Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install nbconvert  # To convert the notebook if needed
+
+      - name: Convert notebook to script
+        run: jupyter nbconvert --to script trash-classification.ipynb  # Converts .ipynb to .py
+
+      - name: Run model training
+        run: |
+          python trash-classification.py  # Run converted script
+        env:
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+          HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
